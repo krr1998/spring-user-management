@@ -1,27 +1,32 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Fetch Code') {
             steps {
                 git branch: 'master', url: 'https://github.com/krr1998/spring-user-management.git'
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
         stage('Code Analysis') {
             environment {
-                scannerHome = tool 'sonar' // Ensure 'SonarQube Scanner' is configured in Jenkins
+                scannerHome = tool 'Sonar'
             }
             steps {
                 script {
-                    withSonarQubeEnv('sonar') { // Ensure 'SonarQube' matches your Jenkins SonarQube configuration name
-                        sh """
-                            ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=java-assingment \
-                            -Dsonar.projectName=java-assingment \
+                    withSonarQubeEnv('Sonar') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=spring-user-management \
+                            -Dsonar.projectName=SpringUserManagement \
                             -Dsonar.projectVersion=1.0 \
-                            -Dsonar.qualitygate.wait=true \
-                            -Dsonar.sources=.
-                        """
+                            -Dsonar.sources=src \
+                            -Dsonar.java.binaries=target/classes"
                     }
                 }
             }
