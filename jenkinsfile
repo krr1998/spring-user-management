@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven'  // Use the name from Global Tool Configuration
+    }
+
     stages {
         stage('Fetch Code') {
             steps {
