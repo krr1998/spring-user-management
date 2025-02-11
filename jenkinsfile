@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Fetch Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/krr1998/spring-user-management.git'
+                git branch: 'master', url: 'https://github.com/krr1998/spring-user-management.git'
             }
         }
         stage('Code Analysis') {
